@@ -41,8 +41,53 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 def read_root():
     return {"msg": "Backend FastAPI pronto!"}
 
+
+# GET /persone (già presente)
 @app.get("/persone", dependencies=[Depends(get_current_user)])
 def get_persone():
     with Session(engine) as session:
         persone = session.exec(select(Persona)).all()
         return persone
+
+# GET /persone/{id}
+@app.get("/persone/{id}", dependencies=[Depends(get_current_user)])
+def get_persona(id: int):
+    with Session(engine) as session:
+        persona = session.get(Persona, id)
+        if not persona:
+            raise HTTPException(status_code=404, detail="Persona non trovata")
+        return persona
+
+# POST /persone
+@app.post("/persone", dependencies=[Depends(get_current_user)])
+def create_persona(persona: Persona):
+    with Session(engine) as session:
+        session.add(persona)
+        session.commit()
+        session.refresh(persona)
+        return persona
+
+# PUT /persone/{id}
+@app.put("/persone/{id}", dependencies=[Depends(get_current_user)])
+def update_persona(id: int, data: dict):
+    with Session(engine) as session:
+        persona = session.get(Persona, id)
+        if not persona:
+            raise HTTPException(status_code=404, detail="Persona non trovata")
+        for key, value in data.items():
+            if hasattr(persona, key):
+                setattr(persona, key, value)
+        session.commit()
+        session.refresh(persona)
+        return persona
+
+# DELETE /persone/{id}
+@app.delete("/persone/{id}", dependencies=[Depends(get_current_user)])
+def delete_persona(id: int):
+    with Session(engine) as session:
+        persona = session.get(Persona, id)
+        if not persona:
+            raise HTTPException(status_code=404, detail="Persona non trovata")
+        session.delete(persona)
+        session.commit()
+        return {"msg": "Persona eliminata"}
