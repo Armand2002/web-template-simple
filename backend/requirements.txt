@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+sqlmodel[sqlite]
+python-jose
+pydantic
+passlib
+bcrypt<4.1
