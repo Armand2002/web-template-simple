@@ -205,3 +205,38 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Frontend / Node
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.vercel/
+frontend/.cache/
+frontend/build/
+
+# Logs
+*.log
+
+# Lockfiles (optional)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# SQLite dev DB
+backend/db.sqlite
+*.sqlite
+
+# Environment files
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Uploaded files
+uploads/
+public/uploads/
+
+# VSCode
+.vscode/
