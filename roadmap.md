@@ -216,10 +216,44 @@ pip freeze > requirements.txt
   - Aggiungi CORS per permettere fetch dal frontend: `fastapi.middleware.cors.CORSMiddleware`.
 
 7) Frontend: integrazione e componenti (4–8 ore)
-  - Implementa componenti: `components/Navbar.jsx`, `components/PersonCard.jsx`, `components/PersonForm.jsx`, `hooks/useAuth.js`.
-  - Login: invia credenziali a `/auth/login`, salva token (consiglio cookie HttpOnly; per prototipi può andare localStorage).
-  - Dashboard: fetch a `/persone` e mostra lista clickabile.
-  - Pagina dettaglio: fetch GET /persone/{id}, mostra i campi e form per edit/delete.
+  - Struttura e file suggeriti
+    - `components/` (riutilizzabili)
+      - `Navbar.jsx` — navigazione + logout
+      - `PersonCard.jsx` — vista compatta per lista
+      - `PersonForm.jsx` — form riutilizzabile per create/edit
+    - `hooks/`
+      - `useAuth.js` — login, logout, token storage e helper `isAuthenticated`
+    - `lib/` o `api/`
+      - `api.js` o `services/personService.js` — funzioni fetch (GET/POST/PUT/DELETE)
+
+  - Autenticazione (login)
+    - Pagina `/login`: invia credenziali a `/auth/login`.
+    - Salvataggio token: preferibile cookie HttpOnly (produzione); per prototipi può andare in `localStorage`.
+    - `useAuth` espone: `login(email,password)`, `logout()`, `getAuthHeader()`.
+
+  - Rotte protette e UX
+    - Implementare un HOC o hook `ProtectedRoute` che reindirizza a `/login` se non autenticato.
+    - Gestire errori 401 dalle API: forzare logout e redirect a `/login`.
+
+  - Pagine principali (wired alle API)
+    - `/dashboard`: fetch lista da `GET /persone`, mappa in `PersonCard` con link al dettaglio.
+    - `/persone/new`: usa `PersonForm` e chiama `POST /persone`.
+    - `/persone/[id]`: fetch `GET /persone/{id}`, mostra dettaglio e `PersonForm` per edit -> `PUT /persone/{id}`; bottone delete -> `DELETE /persone/{id}`.
+
+  - Styling e UX
+    - Suggerito Tailwind CSS (rapido) o Material UI.
+    - Validazione client: `react-hook-form` + semplice sanitizzazione degli input.
+
+  - Test e qualità
+    - Piccoli test con React Testing Library per `PersonCard` e `PersonForm`.
+    - Verificare redirect su rotte protette e gestione 401.
+
+  - Comandi rapidi (PowerShell)
+    - Avvia frontend in dev: `cd frontend; npm run dev`
+    - Esempio login (PowerShell): usare `Invoke-WebRequest` su `/auth/login` e salvare token in `localStorage` o cookie per test.
+
+  - Output atteso
+    - Dashboard funzionante con elenco clickabile, creazione, modifica e cancellazione persona, e protezione delle pagine private tramite token.
 
 8) Protezione rotte client e UX (1–2 ore)
   - Implementa redirect a `/login` se non autenticato.

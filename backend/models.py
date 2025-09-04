@@ -6,7 +6,8 @@ class Persona(SQLModel, table=True):
     nome: str
     cognome: str
     email: str
-    indirizzo: str
+    telefono: str | None = None
+    
 
 class User(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)

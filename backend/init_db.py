@@ -9,9 +9,9 @@ SQLModel.metadata.create_all(engine)
 
 # Seed con 3 persone
 persone_seed = [
-    Persona(nome="Mario", cognome="Rossi", email="mario.rossi@email.it", indirizzo="Via Roma 1"),
-    Persona(nome="Luca", cognome="Bianchi", email="luca.bianchi@email.it", indirizzo="Via Milano 2"),
-    Persona(nome="Anna", cognome="Verdi", email="anna.verdi@email.it", indirizzo="Via Napoli 3"),
+    Persona(nome="Mario", cognome="Rossi", email="mario.rossi@email.it", telefono="+39 320 1234567"),
+    Persona(nome="Luca", cognome="Bianchi", email="luca.bianchi@email.it", telefono="+39 333 7654321"),
+    Persona(nome="Anna", cognome="Verdi", email="anna.verdi@email.it", telefono="+39 347 9988776"),
 ]
 
 # Seed utente admin

@@ -1,0 +1,114 @@
+/* Minimal global styles - Tailwind entrypoint could go here if Tailwind is configured */
+html, body, #__next {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #fff;
+  background: linear-gradient(180deg,#0f172a 0%, #071029 100%);
+}
+
+/* Utility: container padding */
+.container { padding-left: 1rem; padding-right: 1rem; }
+
+/* Header */
+.site-header {
+  background: rgba(6,10,20,0.55); /* semi-transparent dark */
+  color: #fff; position: sticky; top: 0; z-index: 50; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.site-header-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 1rem; }
+.site-title a { font-weight: 700; color: #fff; text-decoration: none; font-size: 1.125rem }
+.nav-actions { display: flex; gap: 0.75rem; align-items: center; justify-self: end }
+
+/* center area in header for primary navigation (Dashboard) */
+.site-center { position: static; justify-self: center; transform: none }
+.site-title { justify-self: start }
+
+
+/* Hero */
+.hero { background: linear-gradient(180deg,#0f172a 0%, #071029 100%); color: #fff; padding: 4rem 0; padding-top: 6rem; min-height: calc(100vh - 6rem); display: flex; align-items: center }
+.hero-inner { max-width: 1100px; margin: 0 auto; text-align: left; padding: 2rem }
+.hero-title { font-size: 2rem; margin-bottom: 0.5rem }
+.hero-sub { font-size: 1.125rem; color: rgba(255,255,255,0.8); margin-bottom: 1rem }
+.hero-cta a { margin-right: 0.75rem }
+
+/* Auth card */
+.auth-card {
+  background: rgba(255,255,255,0.92); /* slightly translucent */
+  padding: 2rem; border-radius: 12px; box-shadow: 0 12px 30px rgba(2,6,23,0.28);
+  width: 100%; max-width: 420px; border: 1px solid rgba(2,6,23,0.06);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.auth-card .auth-title { letter-spacing: -0.2px }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: 0.5rem 0.9rem; border-radius: 10px; background: transparent; color: #fff; cursor: pointer; text-decoration: none; min-height: 40px; transition: transform .14s ease, box-shadow .14s ease }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(16,24,40,0.12) }
+.btn-icon { opacity: 0.95 }
+.btn-primary { background: linear-gradient(90deg,#2563eb,#1e40af); padding: 0.6rem 1rem; border-radius: 10px; }
+.btn-outline { border: 1px solid rgba(255,255,255,0.14); color: #fff }
+.btn-logout { background: #ef4444 }
+.user-email { margin-right: .75rem; color: rgba(255,255,255,0.9); font-size: .95rem }
+.auth-error { color: #b91c1c; background: #fff1f2; padding: 0.5rem; border-radius: 6px; margin-bottom: 0.75rem }
+.auth-footer .link { color: #1e40af }
+.auth-title { font-size: 1.5rem; margin-bottom: 0.25rem; color: #0f172a }
+.auth-sub { color: #475569; margin-bottom: 1rem }
+.auth-form { display: flex; flex-direction: column; gap: 0.6rem }
+.field { display: flex; flex-direction: column; gap: 0.25rem }
+.label { color: #374151; font-size: 0.9rem }
+.input { padding: 0.6rem 0.75rem; border-radius: 8px; border: 1px solid #e6eef8; background: #fff }
+.auth-btn { width: 100%; font-weight: 600; display: block; margin: 0.75rem auto 0 }
+.auth-btn.inline { width: auto; padding: 0.5rem 1rem }
+.auth-footer { margin-top: 0.5rem; text-align: center }
+.link { color: #2563eb; text-decoration: none }
+/* Ensure main containers span full height so background is visible */
+.min-h-screen { min-height: 100vh }
+
+/* Small set of utility classes used by pages (no Tailwind required) */
+.flex { display: flex }
+.items-center { align-items: center }
+.justify-center { justify-content: center }
+.p-8 { padding: 2rem }
+.mt-4 { margin-top: 1rem }
+
+/* Viewport for auth pages: subtract header height so the card centers nicely below sticky header */
+:root { --header-height: 72px }
+.auth-viewport { min-height: calc(100vh - var(--header-height)); display: flex; align-items: center; justify-content: center; padding: 2rem }
+
+/* Person card modern styles */
+.person-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.35);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.person-card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.5); }
+.person-avatar { width: 64px; height: 64px; border-radius: 12px; flex-shrink: 0 }
+.person-body { flex: 1 }
+.person-name { margin: 0; font-size: 1.05rem; font-weight: 700 }
+.person-meta { margin-top: 6px; display: flex; gap: 8px; align-items: center; color: rgba(255,255,255,0.85); font-size: 0.95rem }
+.person-email, .person-phone { color: rgba(255,255,255,0.85); text-decoration: none }
+.person-email:hover, .person-phone:hover { text-decoration: underline }
+.person-actions { margin-left: 8px; }
+
+@media (max-width: 640px) {
+  .person-card { flex-direction: row; align-items: center }
+  .person-avatar { width: 56px; height: 56px }
+}
+
+/* Search input styling */
+.search-row { display: flex }
+.search-input { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); }
+.search-input .search-icon { opacity: 0.9 }
+.search-input .input { border: none; background: transparent; color: inherit; padding: 6px 0; }
+.search-input .input:focus { outline: none }
+
+.person-actions .btn { font-size: 0.9rem; padding: 0.45rem 0.7rem }
+

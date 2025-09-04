@@ -61,6 +61,7 @@ def get_persona(id: int):
 # POST /persone
 @app.post("/persone", dependencies=[Depends(get_current_user)])
 def create_persona(persona: Persona):
+    # persona model no longer includes foto/indirizzo
     with Session(engine) as session:
         session.add(persona)
         session.commit()
@@ -74,6 +75,11 @@ def update_persona(id: int, data: dict):
         persona = session.get(Persona, id)
         if not persona:
             raise HTTPException(status_code=404, detail="Persona non trovata")
+        # remove indirizzo/foto fields if present in incoming data
+        if 'indirizzo' in data:
+            data.pop('indirizzo')
+        if 'foto' in data:
+            data.pop('foto')
         for key, value in data.items():
             if hasattr(persona, key):
                 setattr(persona, key, value)
