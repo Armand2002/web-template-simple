@@ -15,17 +15,23 @@ export default function useAuth() {
 }
 
 function useProvideAuth() {
-  // Read token synchronously on first render (client-side) to avoid a
-  // hydration/race where ProtectedRoute redirects to /login before the
-  // token is loaded into state.
-  const [token, setToken] = useState(() => {
-    try {
-      return typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null
-    } catch (e) {
-      return null
-    }
-  })
+  // Start with no token during SSR so server-rendered HTML matches client's
+  // initial render. Read token from localStorage on mount (client-only)
+  // and expose an `isReady` flag so consumers can wait for client hydration.
+  const [token, setToken] = useState(null)
+  const [isReady, setIsReady] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    try {
+      const t = typeof window !== 'undefined' ? localStorage.getItem(TOKEN_KEY) : null
+      if (t) setToken(t)
+    } catch (e) {
+      // ignore
+    } finally {
+      setIsReady(true)
+    }
+  }, [])
 
   function login(tokenValue) {
     if (typeof window !== 'undefined') localStorage.setItem(TOKEN_KEY, tokenValue)
@@ -46,5 +52,5 @@ function useProvideAuth() {
     return token ? { Authorization: `Bearer ${token}` } : {}
   }
 
-  return { token, login, logout, isAuthenticated, getAuthHeader }
+  return { token, login, logout, isAuthenticated, getAuthHeader, isReady }
 }

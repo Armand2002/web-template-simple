@@ -19,8 +19,8 @@ function decodePayload(token) {
 export default function Navbar() {
   const auth = useAuth()
   const router = useRouter()
-  const token = auth && auth.token
-  const email = token ? (decodePayload(token)?.sub || '') : ''
+  const token = auth?.token
+  const email = token && auth?.isReady ? (decodePayload(token)?.sub || '') : ''
 
   function onLogout(e) {
     e.preventDefault()
@@ -38,7 +38,11 @@ export default function Navbar() {
           <Link href="/dashboard" className="btn"><span className="btn-icon">🏠</span>Dashboard</Link>
         </div>
         <nav className="nav-actions">
-          {!auth || !auth.isAuthenticated() ? (
+          {/* Avoid showing auth-only markup until auth.isReady to keep SSR markup stable */}
+          {!auth?.isReady ? (
+            // placeholder during hydration
+            <span className="btn" aria-hidden="true">&nbsp;</span>
+          ) : !auth.isAuthenticated() ? (
             <>
               <Link href="/login" className="btn btn-primary"><span className="btn-icon">🔑</span>Login</Link>
               <Link href="/register" className="btn btn-outline"><span className="btn-icon">✍️</span>Registrati</Link>
@@ -46,7 +50,7 @@ export default function Navbar() {
           ) : (
             <>
               <span className="user-email">{email}</span>
-              <a href="#" onClick={onLogout} className="btn btn-logout"><span className="btn-icon">🚪</span>Logout</a>
+              <button onClick={onLogout} className="btn btn-logout"><span className="btn-icon">🚪</span>Logout</button>
             </>
           )}
         </nav>
